@@ -1,0 +1,28 @@
+// 先引入自定义主题样式
+@import "./common-variables.scss";
+
+// 引入 element-ui 样式
+@import "element-ui/packages/theme-chalk/src/index.scss";
+
+// 引入 common-modules 的公共样式（依赖自定义主题变量）
+@import "~@greatmap/common-modules/dist/styles/index.scss";
+
+.el-form {
+  &-item {
+    &__label {
+      line-height: $--input-height;
+    }
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: auto;
+}
