@@ -12,11 +12,19 @@
     :filter-params="filterParams"
     :filter-fields="filterFields"
     filter-realtime
-  />
+  >
+    <template #header>
+      <CMButton type="primary" @click="exportTable">导出</CMButton>
+    </template>
+  </CMList>
 </template>
 
 <script lang="ts">
-import { getTimeStampByDay } from '@greatmap/common-modules';
+import {
+  getDateTimeStr,
+  getTimeStampByDay,
+  writeSheetFile,
+} from '@greatmap/common-modules';
 import { Component, Vue } from 'vue-property-decorator';
 
 import { getOrderList, orderTotal } from '../../api/order';
@@ -24,8 +32,9 @@ import type { CMList } from '@greatmap/common-modules';
 
 @Component
 export default class Dashboard extends Vue {
+  data = [];
   columns = [
-    { prop: 'time', label: '日期', type: 'date', width: '300px' },
+    { prop: 'time', label: '日期', width: '300px' },
     { prop: 'total', label: '金额(元)', width: '150px' },
     { prop: 'detail', label: '详情' },
   ];
@@ -53,6 +62,16 @@ export default class Dashboard extends Vue {
     (this.$refs.CMList as typeof CMList).getList();
   }
 
+  exportTable() {
+    writeSheetFile(
+      (this.$refs.CMList as typeof CMList).data,
+      this.columns.map((item) => ({
+        ...item,
+        width: undefined,
+      })),
+    );
+  }
+
   getListMethod() {
     let startTime;
     let endTime;
@@ -67,13 +86,13 @@ export default class Dashboard extends Vue {
     }).then((res) => {
       return {
         total: res.length,
-        data: res.map((item) => ({
-          time: item.time,
+        data: (this.data = res.map((item) => ({
+          time: getDateTimeStr(item.time),
           total: orderTotal(item.orders),
           detail: item.orders
             .map((item) => `${item.name}（${item.count}个）`)
             .join(','),
-        })),
+        }))),
       };
     });
   }
