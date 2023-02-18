@@ -40,7 +40,6 @@ export default class Layout extends Vue {}
 }
 
 .main-view {
-  background: $--background-color-base;
   padding: $spacing-medium;
   overflow: auto;
 }

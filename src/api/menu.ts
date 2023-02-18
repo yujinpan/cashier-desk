@@ -3,7 +3,7 @@ import { LocalData } from '@greatmap/common-modules';
 export type MenuType = {
   id: number;
   type: string;
-  label: string;
+  name: string;
   price: number;
 };
 

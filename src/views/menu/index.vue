@@ -1,5 +1,6 @@
 <template>
   <CMList
+    class="menu"
     ref="CMList"
     :get-list-method="getListMethod"
     :columns="columns"
@@ -35,7 +36,7 @@ export default class Dashboard extends Vue {
       label: '类型',
       dictionary: DICT.get('menu_type'),
       type: 'tag',
-      tagType: (val) => (val === '荤菜' ? 'warning' : 'success'),
+      tagType: (val) => (val === '荤菜' ? 'primary' : 'success'),
     },
     { prop: 'name', label: '名称' },
     { prop: 'price', label: '价格(元)' },
@@ -128,6 +129,12 @@ export default class Dashboard extends Vue {
 }
 </script>
 
-<!--<style lang="scss" scoped>-->
-<!--@import '@/styles/common-variables.scss';-->
-<!--</style>-->
+<style lang="scss" scoped>
+@import '@/styles/common-variables.scss';
+
+.menu {
+  :deep(.cm-filter > .el-button) {
+    display: none;
+  }
+}
+</style>

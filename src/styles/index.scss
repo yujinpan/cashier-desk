@@ -8,12 +8,21 @@
 @import "~@greatmap/common-modules/dist/styles/index.scss";
 
 .el-button,
-.el-table {
-  font-size: $--font-size-base !important;
+.el-table,
+.el-dialog__body {
+  font-size: $--font-size-large !important;
+}
+
+.el-button {
+  letter-spacing: 1px;
 }
 
 .cm-table.el-table thead th {
   background: none !important;
+}
+
+.el-table .cell {
+  line-height: 30px;
 }
 
 .el-form {
@@ -27,4 +36,8 @@
 html,
 body {
   height: 100%;
+}
+
+body {
+  font-size: $--font-size-base;
 }
