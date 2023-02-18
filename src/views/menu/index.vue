@@ -133,8 +133,5 @@ export default class Dashboard extends Vue {
 @import '@/styles/common-variables.scss';
 
 .menu {
-  :deep(.cm-filter > .el-button) {
-    display: none;
-  }
 }
 </style>

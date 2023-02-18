@@ -8,11 +8,17 @@ import Router from 'vue-router';
 import Layout from '../layout/index.vue';
 import dashboardRoute from './modules/dashboard';
 import menuRoute from './modules/menu';
+import orderRoute from './modules/order';
 import statRoute from './modules/stat';
 import type { RouteConfig } from 'vue-router/types/router';
 
 // 子模块的路由注册
-export const subRoutes: RouteConfig[] = [dashboardRoute, menuRoute, statRoute];
+export const subRoutes: RouteConfig[] = [
+  dashboardRoute,
+  menuRoute,
+  statRoute,
+  orderRoute,
+];
 
 /**
  * 增加子模块的激活菜单元数据，

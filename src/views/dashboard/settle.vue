@@ -30,12 +30,13 @@
 </template>
 
 <script lang="ts">
+import { showMessage } from '@greatmap/common-modules';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 import type { MenuType } from '../../api/menu';
-import { orderTotal } from './order';
-import type { OrderItem } from './order';
+import type { OrderItem } from '../../api/order';
+import { addOrders, orderTotal } from '../../api/order';
 import Total from './total.vue';
 
 @Component({
@@ -68,8 +69,11 @@ export default class Settle extends Vue {
     this.data = [...data];
   }
   submit() {
-    this.$emit('submit');
-    this.close();
+    return addOrders(this.data).then(() => {
+      showMessage('操作成功', 'success');
+      this.$emit('submit');
+      this.close();
+    });
   }
   close() {
     this.$emit('close');

@@ -9,7 +9,9 @@
 
 .el-button,
 .el-table,
-.el-dialog__body {
+.el-dialog__body,
+.el-message,
+.el-message__content {
   font-size: $--font-size-large !important;
 }
 
@@ -21,8 +23,16 @@
   background: none !important;
 }
 
+.cm-filter > .el-button {
+  display: none;
+}
+
 .el-table .cell {
-  line-height: 30px;
+  line-height: 36px;
+}
+
+.el-table .el-table__cell {
+  padding: $spacing-medium 0;
 }
 
 .el-form {

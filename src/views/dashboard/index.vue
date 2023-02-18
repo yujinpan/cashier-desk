@@ -24,7 +24,11 @@
     </div>
     <div class="menu cm-flex-auto__content cm-scroll-y">
       <div v-for="item in menuGroup" :key="item.type">
-        <CMLabel :label="typeMap[item.type]" title />
+        <CMLabel
+          class="cm-margin-bottom-base"
+          :label="typeMap[item.type]"
+          title
+        />
         <CMButton
           v-for="item in item.data"
           :key="item.id"
@@ -49,9 +53,9 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { getMenuList } from '../../api/menu';
 import type { MenuType } from '../../api/menu';
+import type { OrderItem } from '../../api/order';
+import { orderTotal } from '../../api/order';
 import { DICT } from '../../config/dictionary';
-import type { OrderItem } from './order';
-import { orderTotal } from './order';
 import Settle from './settle.vue';
 import Total from './total.vue';
 
@@ -128,6 +132,8 @@ export default class Dashboard extends Vue {
   }
 
   submit() {
+    if (!this.data.length) return;
+
     (this.$refs.Settle as Settle).open(this.data);
   }
 
