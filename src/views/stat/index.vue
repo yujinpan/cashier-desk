@@ -1,53 +1,101 @@
 <template>
-  <CMList
-    :get-list-method="getListMethod"
-    :columns="columns"
-    :filter-fields="filterField"
-    :filter-params="filterParams"
-  >
-    <template #header>
-      <el-button type="primary" icon="el-icon-plus">创建</el-button>
-    </template>
-    <template #column-end>
-      <el-table-column label="操作">
-        <el-button>编辑</el-button>
-        <el-button>删除</el-button>
-      </el-table-column>
-    </template>
-  </CMList>
+  <div class="stat cm-flex-auto cm-flex-column">
+    <div ref="statDay" class="stat-day cm-flex-auto__content"></div>
+    <div ref="statProds" class="stat-prods cm-flex-auto__content"></div>
+  </div>
 </template>
 
 <script lang="ts">
+import * as echarts from 'echarts/core';
 import { Component, Vue } from 'vue-property-decorator';
+
+import {
+  getOrdersTotalByDay,
+  getOrdersTotalByDayAndProduction,
+} from '../../api/order';
+import { totalDay, totalProds } from './data';
 
 @Component
 export default class Dashboard extends Vue {
-  columns = [
-    { prop: 'name', label: '名称' },
-    { prop: 'type', label: '类型' },
-  ];
-  filterField = [
-    { prop: 'name', type: 'INPUT', label: '名称' },
-    {
-      prop: 'type',
-      type: 'SELECT',
-      label: '类型',
-      options: [
-        { value: 1, label: '1' },
-        { value: 2, label: '2' },
-      ],
+  commonChartOptions = {
+    tooltip: {
+      show: true,
     },
-  ];
-  filterParams = {
-    name: '',
-    type: '',
+    grid: {
+      left: 30,
+      right: 30,
+      bottom: 36,
+    },
+    legend: {
+      show: true,
+    },
   };
 
-  getListMethod() {
-    return Promise.resolve({
-      data: [{ name: 1 }, { name: 2 }, { name: 3 }],
-      total: 3,
+  async initStatDay() {
+    const chart = echarts.init(this.$refs.statDay as HTMLElement);
+    const data = await getOrdersTotalByDay();
+
+    if (!data.length) {
+      data.push(...totalDay);
+    }
+
+    chart.setOption({
+      ...this.commonChartOptions,
+      title: {
+        text: '每日营收总额',
+      },
+      xAxis: {
+        data: data.map((item) => item.date),
+      },
+      yAxis: {},
+      series: [
+        {
+          name: '金额（元）',
+          type: 'bar',
+          barWidth: 40,
+          data: data.map((item) => item.total),
+        },
+      ],
     });
+  }
+
+  async initStatProds() {
+    const chart = echarts.init(this.$refs.statProds as HTMLElement);
+    const data = await getOrdersTotalByDayAndProduction();
+
+    if (!data.length) {
+      data.push(...totalProds);
+    }
+
+    chart.setOption({
+      ...this.commonChartOptions,
+      title: {
+        text: '每日各产品营收',
+      },
+      xAxis: {
+        data: data[0].data.map((item) => item.date),
+      },
+      yAxis: {},
+      series: data.map((item) => ({
+        name: item.name,
+        type: 'line',
+        barWidth: 40,
+        data: item.data.map((item) => item.total),
+      })),
+    });
+  }
+
+  update() {
+    this.initStatDay();
+    this.initStatProds();
+  }
+
+  activated() {
+    this.update();
+  }
+
+  mounted() {
+    this.update();
   }
 }
 </script>

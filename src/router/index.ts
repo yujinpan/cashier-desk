@@ -16,8 +16,8 @@ import type { RouteConfig } from 'vue-router/types/router';
 export const subRoutes: RouteConfig[] = [
   dashboardRoute,
   menuRoute,
-  statRoute,
   orderRoute,
+  statRoute,
 ];
 
 /**
