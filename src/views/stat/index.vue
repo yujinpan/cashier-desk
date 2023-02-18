@@ -13,7 +13,6 @@ import {
   getOrdersTotalByDay,
   getOrdersTotalByDayAndProduction,
 } from '../../api/order';
-import { totalDay, totalProds } from './data';
 
 @Component
 export default class Dashboard extends Vue {
@@ -33,15 +32,15 @@ export default class Dashboard extends Vue {
     },
   };
 
+  private chartStatDay;
   async initStatDay() {
-    const chart = echarts.init(this.$refs.statDay as HTMLElement);
-    const data = await getOrdersTotalByDay();
-
-    if (!data.length) {
-      data.push(...totalDay);
+    if (!this.chartStatDay) {
+      this.chartStatDay = echarts.init(this.$refs.statDay as HTMLElement);
     }
 
-    chart.setOption({
+    const data = await getOrdersTotalByDay();
+
+    this.chartStatDay.setOption({
       ...this.commonChartOptions,
       title: {
         text: '每日营收总额',
@@ -61,15 +60,15 @@ export default class Dashboard extends Vue {
     });
   }
 
+  private chartStatProds;
   async initStatProds() {
-    const chart = echarts.init(this.$refs.statProds as HTMLElement);
-    const data = await getOrdersTotalByDayAndProduction();
-
-    if (!data.length) {
-      data.push(...totalProds);
+    if (!this.chartStatProds) {
+      this.chartStatProds = echarts.init(this.$refs.statProds as HTMLElement);
     }
 
-    chart.setOption({
+    const data = await getOrdersTotalByDayAndProduction();
+
+    this.chartStatProds.setOption({
       ...this.commonChartOptions,
       title: {
         text: '每日各产品营收',
@@ -81,7 +80,6 @@ export default class Dashboard extends Vue {
       series: data.map((item) => ({
         name: item.name,
         type: 'line',
-        barWidth: 40,
         data: item.data.map((item) => item.total),
       })),
     });

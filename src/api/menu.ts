@@ -1,5 +1,7 @@
 import { LocalData } from '@greatmap/common-modules';
 
+import { MenuData } from './menu-data';
+
 export type MenuType = {
   id: number;
   type: string;
@@ -8,6 +10,10 @@ export type MenuType = {
 };
 
 const localData = new LocalData<MenuType[]>('MENU');
+
+if (!localData.get()) {
+  localData.set(MenuData);
+}
 
 export async function getMenuList(params: { type?: string } = {}) {
   let data = localData.get() || [];
