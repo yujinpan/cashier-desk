@@ -7,6 +7,15 @@
 // 引入 common-modules 的公共样式（依赖自定义主题变量）
 @import "~@greatmap/common-modules/dist/styles/index.scss";
 
+.el-button,
+.el-table {
+  font-size: $--font-size-base !important;
+}
+
+.cm-table.el-table thead th {
+  background: none !important;
+}
+
 .el-form {
   &-item {
     &__label {
@@ -18,11 +27,4 @@
 html,
 body {
   height: 100%;
-}
-
-body {
-  font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow: auto;
 }

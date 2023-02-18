@@ -4,7 +4,7 @@
   "author": "yujinpan",
   "scripts": {
     "start": "npm run dev",
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build && npm run zip",
     "preview": "vite preview --port 4173",
     "test": "vitest --environment jsdom",
@@ -15,7 +15,7 @@
   "dependencies": {
     "@greatmap/common-modules": "^1.5.75",
     "crypto-js": "^4.1.1",
-    "element-ui": "2.15.8",
+    "mint-ui": "^2.2.13",
     "vue": "^2.7.10",
     "vue-router": "^3.6.5",
     "vuex": "^3.6.2"

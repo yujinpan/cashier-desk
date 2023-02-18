@@ -1,8 +1,5 @@
-/**
- * 首页路由配置
- */
 export default {
-  path: '/home/dashboard',
+  path: '/dashboard',
   name: 'dashboard',
   component: () => import('@/views/dashboard/index.vue'),
   meta: {
