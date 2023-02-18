@@ -28,6 +28,8 @@ export default class Dashboard extends Vue {
     },
     legend: {
       show: true,
+      right: 0,
+      width: '80%',
     },
   };
 

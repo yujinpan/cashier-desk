@@ -39,7 +39,7 @@ export async function updateMenu(data: MenuType) {
 export async function deleteMenu(id: number) {
   const oldData = await getMenuList();
   const findIndex = oldData.findIndex((item) => item.id === id);
-  if (findIndex) {
+  if (findIndex !== -1) {
     oldData.splice(findIndex, 1);
     localData.set(oldData);
   }

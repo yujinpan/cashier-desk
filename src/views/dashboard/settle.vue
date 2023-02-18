@@ -16,6 +16,7 @@
         :border="false"
         :order="false"
         :show-overflow-tooltip="false"
+        max-height="320px"
         size="large"
       />
       <Total class="cm-margin-top-large" :value="total" />

@@ -181,8 +181,8 @@ export default class Dashboard extends Vue {
   .menu {
     &-item {
       height: 100px;
-      padding: $spacing-large;
-      margin: 0 $spacing-medium $spacing-medium 0;
+      width: 30%;
+      margin: 0 3% $spacing-medium 0;
       line-height: 35px;
     }
   }
