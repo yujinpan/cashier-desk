@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run www && cordova build ios",
+    "build": "npm run www && cordova build ios --device",
     "www": "rm -rf www && cp -r ../dist/ ./www/"
   },
   "keywords": [
