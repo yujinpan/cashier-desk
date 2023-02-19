@@ -10,7 +10,7 @@
     "publish:patch": "npm version patch",
     "version": "npm run build && npm run client:build && git add .",
     "postversion": "git push",
-    "client:build": "npm run build && cd client && npm run publish:beta",
+    "client:build": "cd client && npm run build",
     "preview": "vite preview --port 4173",
     "test": "vitest --environment jsdom",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",

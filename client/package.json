@@ -6,10 +6,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish:beta": "npm version prerelease --preid=beta",
-    "publish:patch": "npm version patch",
-    "version": "node scripts/version.js && npm run build && git add .",
-    "postversion": "git push",
     "build": "npm run www && cordova build ios",
     "www": "rm -rf www && cp -r ../dist/ ./www/"
   },
