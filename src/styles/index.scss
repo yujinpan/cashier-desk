@@ -50,4 +50,6 @@ body {
 
 body {
   font-size: $--font-size-base;
+  min-width: 1024px;
+  min-height: 768px;
 }
