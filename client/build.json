@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "release": {
+      "codeSignIdentity": "Apple Developer"
+    }
+  }
+}
