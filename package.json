@@ -6,7 +6,7 @@
     "start": "npm run dev",
     "dev": "vite --host",
     "build": "vite build",
-    "client:build": "npm run build && rm -rf client/www && cp -r dist/ client/www/ && cd client && cordova build ios",
+    "client:build": "npm run build && cd client && npm run build",
     "preview": "vite preview --port 4173",
     "test": "vitest --environment jsdom",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
