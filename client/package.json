@@ -1,15 +1,15 @@
 {
   "name": "com.cashier.desk",
   "displayName": "CashierDesk",
-  "version": "1.0.1-beta.0",
+  "version": "1.0.2-beta.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish:beta": "npm version prepatch --preid=beta",
+    "publish:beta": "npm version prerelease --preid=beta",
     "publish:patch": "npm version patch",
-    "version": "node scripts/version.js && npm run build",
-    "postversion": "git add . && git push",
+    "version": "node scripts/version.js && npm run build && git add .",
+    "postversion": "git push",
     "build": "npm run www && cordova build ios",
     "www": "rm -rf www && cp -r ../dist/ ./www/"
   },
