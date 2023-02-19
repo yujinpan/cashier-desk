@@ -1,7 +1,7 @@
 {
   "name": "com.cashier.desk",
   "displayName": "CashierDesk",
-  "version": "1.0.2-beta.0",
+  "version": "1.0.2-beta.1",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
   "scripts": {
