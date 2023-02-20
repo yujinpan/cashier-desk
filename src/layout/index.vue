@@ -1,7 +1,7 @@
 <template>
   <div class="layout cm-full-height">
     <div class="cm-flex cm-full-height">
-      <Navbar />
+      <Navbar class="cm-flex-none" />
       <div class="cm-flex-1 cm-full-height main-body cm-flex-column">
         <div class="main-view cm-flex-1 cm-scrollbar-default cm-full-height">
           <transition name="el-fade-in" mode="out-in">
