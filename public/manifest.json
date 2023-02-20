@@ -1,0 +1,20 @@
+{
+  "id": "CashierDesk",
+  "name": "CashierDesk",
+  "short_name": "CashierDesk",
+  "author": "yujinpan",
+  "description": "Cashier desk for web.",
+  "start_url": "index.html",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "lang": "zh_cn",
+  "background_color": "white",
+  "theme_color": "#559E84",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "200x200"
+    }
+  ]
+}
