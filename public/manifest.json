@@ -5,7 +5,7 @@
   "author": "yujinpan",
   "description": "Cashier desk for web.",
   "start_url": "index.html",
-  "scope": "/",
+  "scope": ".",
   "display": "fullscreen",
   "orientation": "landscape",
   "lang": "zh_cn",
