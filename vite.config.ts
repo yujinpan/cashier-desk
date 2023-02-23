@@ -3,6 +3,7 @@ import vue2Jsx from '@vitejs/plugin-vue2-jsx';
 import { resolve } from 'path';
 import { resolveWithAlias } from 'path-ops';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 import pkg from './package.json';
 
@@ -21,6 +22,40 @@ export default defineConfig({
         ['@babel/plugin-proposal-decorators', { legacy: true }],
         '@babel/plugin-proposal-class-properties',
       ],
+    }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+      includeAssets: ['logo.svg'],
+      devOptions: { enabled: true },
+      manifest: {
+        id: 'CashierDesk',
+        name: 'CashierDesk',
+        short_name: 'CashierDesk',
+        description: 'Cashier desk for web.',
+        start_url: 'index.html',
+        display: 'fullscreen',
+        orientation: 'landscape',
+        lang: 'zh_cn',
+        background_color: '#ffffff',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+      // srcDir: 'src',
+      // filename: 'sw.ts',
     }),
   ],
   server: {

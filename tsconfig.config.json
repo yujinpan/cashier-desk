@@ -4,7 +4,8 @@
     "vite.config.*",
     "vitest.config.*",
     "cypress.config.*",
-    "package.json"
+    "package.json",
+    "manifest.json"
   ],
   "compilerOptions": {
     "composite": true,

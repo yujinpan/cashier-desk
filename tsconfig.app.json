@@ -9,6 +9,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "types": ["vite-plugin-pwa/client"],
+    "lib": ["ESNext", "DOM", "WebWorker"]
   }
 }
