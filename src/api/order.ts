@@ -26,7 +26,7 @@ export async function getOrderList(
   if (params.endTime) {
     result = result.filter((item) => item.time < params.endTime);
   }
-  return result;
+  return result.reverse();
 }
 
 export async function addOrders(orders: OrderItem[]) {
