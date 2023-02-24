@@ -33,8 +33,10 @@
         <ul class="menu__list cm-flex-wrap cm-list-unstyled">
           <li v-for="item in item.data" :key="item.id" class="menu__list-item">
             <CMButton
+              v-move-to="[300, 330]"
               @click="add(item)"
               column
+              style="line-height: 35px"
               :type="item.type === 'meat' ? 'primary' : 'success'"
             >
               <span
@@ -61,6 +63,7 @@ import type { MenuType } from '../../api/menu';
 import type { OrderItem } from '../../api/order';
 import { orderTotal } from '../../api/order';
 import { DICT } from '../../config/dictionary';
+import { MoveTo } from './move-to';
 import Settle from './settle.vue';
 import Total from './total.vue';
 
@@ -68,6 +71,9 @@ import Total from './total.vue';
   components: {
     Total,
     Settle,
+  },
+  directives: {
+    MoveTo,
   },
 })
 export default class Dashboard extends Vue {
@@ -193,7 +199,6 @@ export default class Dashboard extends Vue {
           height: 120px;
           padding: $spacing-medium $spacing-base;
           width: 100%;
-          line-height: 35px;
         }
       }
     }
