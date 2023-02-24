@@ -27,22 +27,27 @@
         <CMLabel
           class="cm-margin-bottom-base"
           :label="typeMap[item.type]"
+          label-size="26px"
           title
         />
-        <CMButton
-          v-for="item in item.data"
-          :key="item.id"
-          @click="add(item)"
-          class="menu-item"
-          column
-          :type="item.type === 'meat' ? 'primary' : 'success'"
-        >
-          <p>
-            {{ item.name }}<br />
-            <span style="font-size: 16px">¥&nbsp;</span>
-            <span>{{ item.price }}</span>
-          </p>
-        </CMButton>
+        <ul class="menu__list cm-flex-wrap cm-list-unstyled">
+          <li v-for="item in item.data" :key="item.id" class="menu__list-item">
+            <CMButton
+              @click="add(item)"
+              column
+              :type="item.type === 'meat' ? 'primary' : 'success'"
+            >
+              <span
+                class="cm-text-ellipsis-2"
+                style="font-size: 30px; white-space: normal"
+              >
+                {{ item.name }}
+              </span>
+              <span style="font-size: 16px">¥&nbsp;</span>
+              <span>{{ item.price }}</span>
+            </CMButton>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -179,11 +184,18 @@ export default class Dashboard extends Vue {
     }
   }
   .menu {
-    &-item {
-      height: 100px;
-      width: 30%;
-      margin: 0 3% $spacing-medium 0;
-      line-height: 35px;
+    &__list {
+      margin-left: -$spacing-base;
+      &-item {
+        width: 33.33%;
+        padding: 0 0 $spacing-base $spacing-base;
+        .cm-button {
+          height: 120px;
+          padding: $spacing-medium $spacing-base;
+          width: 100%;
+          line-height: 35px;
+        }
+      }
     }
   }
 }

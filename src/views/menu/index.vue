@@ -7,7 +7,7 @@
     :filter-fields="filterField"
     :filter-params="filterParams"
     :pagination="false"
-    :table-props="{ order: false }"
+    :table-props="{ order: false, showOverflowTooltip: false }"
     filter-realtime
   >
     <template #header>
