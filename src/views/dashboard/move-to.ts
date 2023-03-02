@@ -1,17 +1,53 @@
+import type { Fn } from '@greatmap/common-modules';
 import type { DirectiveOptions } from 'vue';
 
 export const MoveTo: DirectiveOptions = {
   inserted(el, bindings) {
-    el.addEventListener('click', () => {
+    const onClick = () => {
       moveAnimate(el, bindings.value);
-    });
+    };
+
+    el.addEventListener('click', onClick);
+
+    el['_move_to_destroy'] = () => {
+      el.removeEventListener('click', onClick);
+    };
+  },
+  unbind(el) {
+    el['_move_to_destroy']?.();
+    el['_move_to_destroy'] = null;
   },
 };
 
-function moveAnimate(el: HTMLElement, target: number[]) {
-  const rect = el.getBoundingClientRect();
-  const clone = el.cloneNode(true) as HTMLElement;
+export async function moveAnimate(el: HTMLElement, target: number[]) {
+  const clone = cloneElemWithPositionAbsolute(el);
+
   document.body.append(clone);
+
+  await animateFrame(clone, () => {
+    const { x, y } = distance(clone, target);
+
+    animate(clone, {
+      transform: `translate(${y}px,${x}px)`,
+      opacity: 0.8,
+      duration: 1,
+    });
+  });
+
+  await animateFrame(clone, () => {
+    animate(clone, {
+      transform: `scale(0)`,
+      opacity: 0,
+      duration: 0.45,
+    });
+  });
+
+  clone.remove();
+}
+
+function cloneElemWithPositionAbsolute(el: HTMLElement) {
+  const clone = el.cloneNode(true) as HTMLElement;
+  const rect = rectAbsolute(el);
 
   clone.style.width = rect.width + 'px';
   clone.style.height = rect.height + 'px';
@@ -21,23 +57,62 @@ function moveAnimate(el: HTMLElement, target: number[]) {
   clone.style.zIndex = '1000';
   clone.style.boxShadow = '0 0 10px 3px white';
 
-  setTimeout(() => {
-    const moveX = target[0] - rect.top - rect.height / 2;
-    const moveY = target[1] - rect.left - rect.width / 2;
-    clone.style.transition = 'all 1s';
-    clone.style.transform = `translate(${moveY}px,${moveX}px)`;
-    clone.style.opacity = '0.8';
+  return clone;
+}
 
-    clone.addEventListener('transitionend', () => {
-      clone.style.transition = 'all 0.4s';
-      clone.style.opacity = '0';
-      clone.style.transform += ' scale(1.3)';
+function rectAbsolute(
+  el: HTMLElement,
+): Pick<DOMRect, 'width' | 'height' | 'top' | 'left'> {
+  const rect = el.getBoundingClientRect();
+  const { scrollLeft, scrollTop } = document.body;
 
-      setTimeout(() => {
-        clone.addEventListener('transitionend', () => {
-          clone.remove();
-        });
-      });
+  return {
+    width: rect.width,
+    height: rect.height,
+    top: scrollTop + rect.top,
+    left: scrollLeft + rect.left,
+  };
+}
+
+function distance(el: HTMLElement, target: number[]) {
+  const { width, height, top, left } = rectAbsolute(el);
+  const [originX, originY] = [top + height / 2, left + width / 2];
+  const [targetX, targetY] = target;
+  return {
+    x: targetX - originX,
+    y: targetY - originY,
+  };
+}
+
+function animate(
+  elem: HTMLElement,
+  options: { transform: string; opacity: number; duration: number },
+) {
+  elem.style.transition = `all ${options.duration}s`;
+  elem.style.opacity = String(options.opacity);
+  elem.style.transform = elem.style.transform
+    .split(' ')
+    .concat(options.transform)
+    .join(' ');
+}
+
+function animateFrame(el: HTMLElement, animate: Fn) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      animate();
+      transitionPromise(el).finally(resolve);
     });
+  });
+}
+
+function transitionPromise(el: HTMLElement) {
+  return new Promise<void>((resolve) => {
+    const callback = () => {
+      resolve();
+      el.removeEventListener('transitionend', callback);
+      el.removeEventListener('transitioncancel', callback);
+    };
+    el.addEventListener('transitionend', callback);
+    el.addEventListener('transitioncancel', callback);
   });
 }
