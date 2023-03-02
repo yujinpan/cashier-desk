@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import { toMap } from '@greatmap/common-modules';
 import * as echarts from 'echarts/core';
 import { Component, Vue } from 'vue-property-decorator';
 
@@ -53,7 +54,7 @@ export default class Dashboard extends Vue {
         {
           name: '金额（元）',
           type: 'bar',
-          barWidth: 40,
+          barMaxWidth: 40,
           data: data.map((item) => item.total),
         },
       ],
@@ -83,6 +84,15 @@ export default class Dashboard extends Vue {
         data: item.data.map((item) => item.total),
         smooth: true,
       })),
+    });
+    this.chartStatProds.setOption({
+      legend: {
+        selected: toMap(
+          data.map((item, index) => ({ name: item.name, selected: index < 7 })),
+          'name',
+          'selected',
+        ),
+      },
     });
   }
 
