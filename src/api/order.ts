@@ -15,6 +15,7 @@ const localData = new LocalData<OrderDate[]>('ORDERS');
 
 export async function getOrderList(
   params: {
+    order?: 'asc' | 'desc';
     startTime?: number;
     endTime?: number;
   } = {},
@@ -26,7 +27,10 @@ export async function getOrderList(
   if (params.endTime) {
     result = result.filter((item) => item.time < params.endTime);
   }
-  return result.sort((a, b) => b.time - a.time);
+
+  const sortFactory = params.order === 'asc' ? 1 : -1;
+
+  return result.sort((a, b) => (a.time - b.time) * sortFactory);
 }
 
 export async function addOrders(orders: OrderItem[]) {
