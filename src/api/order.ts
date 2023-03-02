@@ -39,11 +39,13 @@ export async function addOrders(orders: OrderItem[]) {
 }
 
 export async function getOrdersTotalByDay() {
-  return await getOrderList().then((res) => orderDateTotalData(res));
+  return await getOrderList({ order: 'asc' }).then((res) =>
+    orderDateTotalData(res),
+  );
 }
 
 export async function getOrdersTotalByDayAndProduction() {
-  const orders = await getOrderList();
+  const orders = await getOrderList({ order: 'asc' });
   return await getMenuList().then((res) =>
     res.map((item) => ({
       name: item.name,
