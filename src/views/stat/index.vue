@@ -81,6 +81,7 @@ export default class Dashboard extends Vue {
         name: item.name,
         type: 'line',
         data: item.data.map((item) => item.total),
+        smooth: true,
       })),
     });
   }
