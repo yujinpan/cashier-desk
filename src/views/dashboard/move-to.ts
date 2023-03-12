@@ -98,8 +98,8 @@ function animate(
 
 function animateFrame(el: HTMLElement, animate: Fn) {
   return new Promise<void>((resolve) => {
+    animate();
     setTimeout(() => {
-      animate();
       transitionPromise(el).finally(resolve);
     });
   });
@@ -110,9 +110,7 @@ function transitionPromise(el: HTMLElement) {
     const callback = () => {
       resolve();
       el.removeEventListener('transitionend', callback);
-      el.removeEventListener('transitioncancel', callback);
     };
     el.addEventListener('transitionend', callback);
-    el.addEventListener('transitioncancel', callback);
   });
 }
