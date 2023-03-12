@@ -64,7 +64,7 @@ function rectAbsolute(
   el: HTMLElement,
 ): Pick<DOMRect, 'width' | 'height' | 'top' | 'left'> {
   const rect = el.getBoundingClientRect();
-  const { scrollLeft, scrollTop } = document.body;
+  const { scrollLeft, scrollTop } = document.scrollingElement;
 
   return {
     width: rect.width,
