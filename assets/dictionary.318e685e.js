@@ -1,0 +1,1 @@
+import{D as e}from"./index.ac708e43.js";const a=new e({getByTypeMethod:()=>Promise.resolve([])});a.add("menu_type",[{value:"meat",label:"\u8364\u83DC"},{value:"vegetarian",label:"\u7D20\u83DC"}]);export{a as D};
