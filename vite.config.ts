@@ -2,6 +2,7 @@ import vue2 from '@vitejs/plugin-vue2';
 import vue2Jsx from '@vitejs/plugin-vue2-jsx';
 import { resolve } from 'path';
 import { resolveWithAlias } from 'path-ops';
+import vitePluginGA from 'vite-plugin-ga';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
 
@@ -56,6 +57,9 @@ export default defineConfig({
       },
       // srcDir: 'src',
       // filename: 'sw.ts',
+    }),
+    vitePluginGA({
+      id: 'G-S66MPLRFJZ',
     }),
   ],
   server: {
