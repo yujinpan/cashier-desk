@@ -14,6 +14,9 @@ import {
   getOrdersTotalByDay,
   getOrdersTotalByDayAndProduction,
 } from '@/api/order';
+import { useLocale } from '@/utils/locale';
+
+const { locale } = useLocale();
 
 const commonChartOptions = ref({
   tooltip: {
@@ -43,7 +46,7 @@ const initStatDay = async () => {
   chartStatDay.value.setOption({
     ...commonChartOptions.value,
     title: {
-      text: '每日营收总额',
+      text: locale.value.stat.totalDailyRevenue,
     },
     xAxis: {
       data: data.map((item) => item.date),
@@ -51,7 +54,7 @@ const initStatDay = async () => {
     yAxis: {},
     series: [
       {
-        name: '金额（元）',
+        name: `${locale.value.order.totalPrice}(${locale.value.currency.name})`,
         type: 'bar',
         barMaxWidth: 40,
         data: data.map((item) => item.total),
@@ -72,7 +75,7 @@ const initStatProds = async () => {
   chartStatProds.value.setOption({
     ...commonChartOptions.value,
     title: {
-      text: '每日各产品营收',
+      text: locale.value.stat.productDailyRevenue,
     },
     xAxis: {
       data: data[0].data.map((item) => item.date),

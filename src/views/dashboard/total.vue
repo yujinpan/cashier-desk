@@ -1,12 +1,16 @@
 <template>
   <div class="cm-flex-wrap cm-flex-center">
-    总金额：
+    {{ locale.order.totalPrice }}：
     <span class="cm-color-primary" style="font-size: 50px">{{ value }}</span>
-    &nbsp;&nbsp;元
+    &nbsp;&nbsp;{{ locale.currency.name }}
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useLocale } from '@/utils/locale';
+
+const { locale } = useLocale();
+
 defineProps({
   value: Number,
 });

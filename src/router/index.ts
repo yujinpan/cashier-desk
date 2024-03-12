@@ -12,12 +12,15 @@ import orderRoute from './modules/order';
 import statRoute from './modules/stat';
 import type { RouteConfig } from 'vue-router/types/router';
 
+import settings from '@/router/modules/settings';
+
 // 子模块的路由注册
 const subRoutes: RouteConfig[] = [
   dashboardRoute,
   menuRoute,
   orderRoute,
   statRoute,
+  settings,
 ];
 
 /**

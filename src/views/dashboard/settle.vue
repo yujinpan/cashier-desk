@@ -1,15 +1,14 @@
 <template>
   <el-dialog
     :visible="visible"
-    title="订单确认"
-    width="750px"
+    :title="locale.order.confirmTitle"
+    width="70%"
     append-to-body
     :close-on-click-modal="false"
     :show-close="false"
   >
     <div class="settle">
       <CMTable
-        ref="CMTable"
         class="order-list cm-flex-auto__content"
         :columns="columns"
         :data="data"
@@ -23,15 +22,20 @@
     </div>
     <template #footer>
       <div class="cm-text-center settle-footer">
-        <CMButton @click="submit()" type="primary">完成下单</CMButton>
-        <CMButton @click="close()">取消</CMButton>
+        <CMButton @click="submit()" type="primary">{{
+          locale.order.completeButtonText
+        }}</CMButton>
+        <CMButton @click="close()">{{
+          locale.order.cancelButtonText
+        }}</CMButton>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import { showMessage, CMTable, CMButton } from '@greatmap/common-modules';
+import { CMTable, CMButton } from '@greatmap/common-modules';
+import { MessageBox } from 'element-ui';
 import { computed, ref } from 'vue';
 
 import Total from './total.vue';
@@ -39,22 +43,28 @@ import type { MenuType } from '@/api/menu';
 import type { OrderItem } from '@/api/order';
 
 import { addOrders, orderTotal } from '@/api/order';
+import { useLocale } from '@/utils/locale';
 
 const emits = defineEmits(['submit', 'close']);
 
+const { locale } = useLocale();
+
 const visible = ref(false);
 const data = ref<OrderItem[]>([]);
-const columns = ref([
-  { prop: 'name', label: '名称' },
+const columns = computed(() => [
+  { prop: 'name', label: locale.value.order.name },
   {
     prop: 'count',
-    label: '数量',
+    label: locale.value.order.count,
     width: '170px',
   },
-  { prop: 'price', label: '单价(元)' },
+  {
+    prop: 'price',
+    label: `${locale.value.order.unitPrice}(${locale.value.currency.name})`,
+  },
   {
     prop: 'total',
-    label: '总价(元)',
+    label: `${locale.value.order.totalPrice}(${locale.value.currency.name})`,
     formatter: (val, row) => row.price * row.count,
   },
 ]);
@@ -69,7 +79,11 @@ const open = (data1: (MenuType & { count: number })[]) => {
 };
 const submit = () => {
   return addOrders(data.value).then(() => {
-    showMessage('操作成功', 'success');
+    setTimeout(() => {
+      MessageBox.alert(locale.value.handle.successMsg, {
+        type: 'success',
+      });
+    }, 300);
     emits('submit');
     close();
   });

@@ -20,8 +20,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@greatmap/common-modules": "^1.5.75",
-    "crypto-js": "^4.1.1",
+    "@greatmap/common-modules": "^1.8.57",
+    "core-js": "^3.36.0",
     "echarts": "^5.4.1",
     "vue": "^2.7.10",
     "vue-router": "^3.6.5",

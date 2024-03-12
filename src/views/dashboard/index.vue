@@ -5,18 +5,19 @@
       style="width: 400px"
     >
       <CMTable
-        ref="CMTable"
         class="order-list cm-flex-auto__content"
         :columns="columns"
         :data="data"
         :border="false"
         :order="false"
         :show-overflow-tooltip="false"
-        empty-text="购物车为空"
+        :empty-text="locale.order.emptyMsg"
         height="100%"
       />
       <div class="order-submit cm-flex-auto__fixed cm-flex-space-between">
-        <CMButton @click="submit" type="success">下单</CMButton>
+        <CMButton @click="submit" type="success">{{
+          locale.order.submit
+        }}</CMButton>
         <Settle @submit="reset()" ref="settle" />
 
         <Total :value="total" />
@@ -45,7 +46,9 @@
               >
                 {{ item.name }}
               </span>
-              <span style="font-size: 16px">¥&nbsp;</span>
+              <span style="font-size: 16px"
+                >{{ locale.currency.symbol }}&nbsp;</span
+              >
               <span>{{ item.price }}</span>
             </CMButton>
           </li>
@@ -68,14 +71,17 @@ import type { OrderItem } from '@/api/order';
 import { getMenuList } from '@/api/menu';
 import { orderTotal } from '@/api/order';
 import { DICT } from '@/config/dictionary';
+import { useLocale } from '@/utils/locale';
+
+const { locale } = useLocale();
 
 const menus = ref<MenuType[]>([]);
 const data = ref<OrderItem[]>([]);
-const columns = ref([
-  { prop: 'name', label: '名称' },
+const columns = computed(() => [
+  { prop: 'name', label: locale.value.order.name },
   {
     prop: 'count',
-    label: '数量',
+    label: locale.value.order.count,
     width: '170px',
     type: 'form-control',
     formControlProps: {
@@ -83,9 +89,9 @@ const columns = ref([
     },
   },
   {
-    label: '删除',
+    label: locale.value.handle.handle,
     type: 'handle',
-    width: '80px',
+    width: '85px',
     handleButtons: [
       {
         icon: 'el-icon-delete',
@@ -117,13 +123,13 @@ const deleteItem = (row) => {
   data.value.splice(index, 1);
 };
 
-const add = (data) => {
-  const find = data.value.find((item) => item.id === data.id);
+const add = (data1) => {
+  const find = data.value.find((item) => item.id === data1.id);
   if (find) {
     find.count++;
   } else {
     data.value.push({
-      ...data,
+      ...data1,
       count: 1,
     });
   }

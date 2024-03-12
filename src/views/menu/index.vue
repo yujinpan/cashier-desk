@@ -8,69 +8,85 @@
     :filter-params="filterParams"
     :pagination="false"
     :table-props="{ order: false, showOverflowTooltip: false }"
+    :filter-props="{
+      showQueryButton: false,
+      showResetButton: false,
+    }"
     filter-realtime
   >
     <template #header>
-      <el-button @click="createMenu()" type="primary" icon="el-icon-plus"
-        >创建</el-button
-      >
+      <el-button @click="createMenu()" type="primary" icon="el-icon-plus">{{
+        locale.menu.create
+      }}</el-button>
     </template>
   </CMList>
 </template>
 
 <script lang="ts" setup>
-import { promptForm, showMessage, CMList } from '@greatmap/common-modules';
+import { promptForm, CMList, createValidator } from '@greatmap/common-modules';
 import { MessageBox } from 'element-ui';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import type { MenuType } from '@/api/menu';
 
 import { addMenu, deleteMenu, getMenuList, updateMenu } from '@/api/menu';
 import { DICT } from '@/config/dictionary';
+import { useLocale } from '@/utils/locale';
 
-const columns = ref([
-  { label: '序号', prop: 'order', width: '80px' },
+const { locale } = useLocale();
+
+const columns = computed(() => [
+  { label: locale.value.menu.number, prop: 'order', width: '80px' },
   {
     prop: 'type',
-    label: '类型',
+    label: locale.value.menu.type,
     dictionary: DICT.get('menu_type'),
     type: 'tag',
-    tagType: (val) => (val === '荤菜' ? 'primary' : 'success'),
+    tagType: (val) =>
+      val === DICT.getSync('menu_type')[0].label ? 'primary' : 'success',
   },
-  { prop: 'name', label: '名称' },
-  { prop: 'price', label: '价格(元)' },
+  { prop: 'name', label: locale.value.menu.name },
+  {
+    prop: 'price',
+    label: `${locale.value.order.unitPrice}(${locale.value.currency.name})`,
+  },
   {
     type: 'handle',
-    label: '操作',
+    label: locale.value.handle.handle,
     width: '260px',
     handleButtons: [
       {
-        label: '编辑',
+        label: locale.value.handle.edit,
         text: false,
         type: 'primary',
-        handler: (row) => updateMenu(row),
+        handler: (row) => createMenu(row),
       },
       {
-        label: '删除',
+        label: locale.value.handle.delete,
         text: false,
         type: 'warning',
         handler: (row) => {
-          return MessageBox.confirm('确认删除吗？').then(() => {
-            return deleteMenu(row.id).then(() => {
-              handleSuccess();
-            });
-          });
+          return MessageBox.confirm(locale.value.handle.confirmDeleteMsg).then(
+            () => {
+              return deleteMenu(row.id).then(() => {
+                handleSuccess();
+              });
+            },
+          );
         },
       },
     ],
   },
 ]);
-const filterField = ref([
+const filterField = computed(() => [
   {
     prop: 'type',
     type: 'radio_button',
-    label: '类型',
-    options: [{ value: '', label: '全部' }, ...DICT.getSync('menu_type')],
+    label: locale.value.menu.type,
+    options: [
+      { value: '', label: locale.value.menu.all },
+      ...DICT.getSync('menu_type'),
+    ],
   },
 ]);
 const filterParams = ref({
@@ -79,7 +95,9 @@ const filterParams = ref({
 });
 
 const handleSuccess = () => {
-  showMessage('操作成功', 'success');
+  MessageBox.alert(locale.value.handle.successMsg, {
+    type: 'success',
+  });
   refresh();
 };
 
@@ -89,24 +107,36 @@ const refresh = () => {
 };
 
 const createMenu = (row: Partial<MenuType> = {}) => {
+  const requireValidator = createValidator(
+    locale.value.validate.required,
+    (val) => !!val,
+  );
+  const numberValidator = createValidator(locale.value.validate.number, (val) =>
+    /\d/g.test(val),
+  );
+
   return promptForm({
     model: {
       ...row,
     },
     fields: [
       {
-        label: '类型',
+        label: locale.value.menu.type,
         prop: 'type',
         type: 'radio_button',
         options: DICT.get('menu_type'),
-        rules: ['required'],
+        rules: [requireValidator],
         value: DICT.getSync('menu_type')[0].value,
       },
-      { label: '名称', prop: 'name', rules: ['required'] },
       {
-        label: '价格(元)',
+        label: locale.value.menu.name,
+        prop: 'name',
+        rules: [requireValidator],
+      },
+      {
+        label: `${locale.value.order.unitPrice}(${locale.value.currency.name})`,
         prop: 'price',
-        rules: ['required', 'number'],
+        rules: [requireValidator, numberValidator],
         number: true,
       },
     ],

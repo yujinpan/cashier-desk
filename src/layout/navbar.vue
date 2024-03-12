@@ -7,6 +7,7 @@
         :text="item.path !== activePath"
         column
         :icon="item.icon"
+        icon-size="32px"
         size="large"
         type="primary"
         >{{ item.label }}</CMButton
@@ -19,17 +20,36 @@
 import { CMButton } from '@greatmap/common-modules';
 import { computed, getCurrentInstance } from 'vue';
 
+import { useLocale } from '@/utils/locale';
+
+const { locale } = useLocale();
+
 const menus = computed(() => [
-  { path: '/dashboard', label: '首页', icon: 'el-icon-s-home' },
-  { path: '/menu', label: '菜单', icon: 'el-icon-menu' },
-  { path: '/order', label: '订单', icon: 'el-icon-menu' },
-  { path: '/stat', label: '统计', icon: 'el-icon-menu' },
+  {
+    path: '/dashboard',
+    label: locale.value.navbar.dashboard,
+    icon: 'el-icon-s-home',
+  },
+  { path: '/menu', label: locale.value.navbar.menu, icon: 'el-icon-menu' },
+  {
+    path: '/order',
+    label: locale.value.navbar.order,
+    icon: 'el-icon-document',
+  },
+  { path: '/stat', label: locale.value.navbar.stat, icon: 'el-icon-s-data' },
+  {
+    path: '/settings',
+    label: locale.value.settings.settings,
+    icon: 'el-icon-setting',
+  },
 ]);
 
 const currentInstance = getCurrentInstance();
 
 const activePath = computed(
-  () => currentInstance.$route.meta?.activePath || currentInstance.$route.path,
+  () =>
+    currentInstance.proxy.$route.meta?.activePath ||
+    currentInstance.proxy.$route.path,
 );
 </script>
 

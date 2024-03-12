@@ -11,10 +11,16 @@
     :pagination="false"
     :filter-params="filterParams"
     :filter-fields="filterFields"
+    :filter-props="{
+      showQueryButton: false,
+      showResetButton: false,
+    }"
     filter-realtime
   >
     <template #header>
-      <CMButton type="primary" @click="exportTable">导出</CMButton>
+      <CMButton type="primary" @click="exportTable">{{
+        locale.order.export
+      }}</CMButton>
     </template>
   </CMList>
 </template>
@@ -27,31 +33,38 @@ import {
   CMList,
   CMButton,
 } from '@greatmap/common-modules';
-import { onActivated, ref } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 
 import { getOrderList, orderTotal } from '@/api/order';
+import { useLocale } from '@/utils/locale';
+
+const { locale } = useLocale();
 
 const data = ref([]);
-const columns = ref([
-  { prop: 'time', label: '日期', width: '300px' },
-  { prop: 'total', label: '金额(元)', width: '150px' },
-  { prop: 'detail', label: '详情' },
+const columns = computed(() => [
+  { prop: 'time', label: locale.value.order.time, width: '300px' },
+  {
+    prop: 'total',
+    label: `${locale.value.order.totalPrice}(${locale.value.currency.name})`,
+    width: '160px',
+  },
+  { prop: 'detail', label: locale.value.order.details },
 ]);
 const filterParams = ref({
   date: 0,
 });
-const filterFields = ref([
+const filterFields = computed(() => [
   {
     prop: 'date',
     type: 'radio_button',
     options: [
-      { value: 0, label: '全部' },
-      { value: -1, label: '1天内' },
-      { value: -7, label: '1周内' },
-      { value: -30, label: '1月内' },
-      { value: -90, label: '3月内' },
-      { value: -180, label: '6月内' },
-      { value: -365, label: '12月内' },
+      { value: 0, label: locale.value.order.dateAll },
+      { value: -1, label: locale.value.order.date1d },
+      { value: -7, label: locale.value.order.date1w },
+      { value: -30, label: locale.value.order.date1m },
+      { value: -90, label: locale.value.order.date3m },
+      { value: -180, label: locale.value.order.date6m },
+      { value: -365, label: locale.value.order.date12m },
     ],
   },
 ]);
@@ -89,7 +102,9 @@ const getListMethod = () => {
         time: getDateTimeStr(item.time),
         total: orderTotal(item.orders),
         detail: item.orders
-          .map((item) => `${item.name}（${item.count}个）`)
+          .map(
+            (item) => `${item.name}（${item.count}${locale.value.order.per}）`,
+          )
           .join(','),
       }))),
     };
