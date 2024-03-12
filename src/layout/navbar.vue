@@ -6,7 +6,7 @@
         :class="{ 'is-active': item.path === activePath }"
         :text="item.path !== activePath"
         column
-        icon="el-icon-menu"
+        :icon="item.icon"
         size="large"
         type="primary"
         >{{ item.label }}</CMButton
@@ -15,30 +15,22 @@
   </ul>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts" setup>
+import { CMButton } from '@greatmap/common-modules';
+import { computed, getCurrentInstance } from 'vue';
 
-import { subRoutes } from '../router';
-import type { CMMenuItem } from '@greatmap/common-modules';
+const menus = computed(() => [
+  { path: '/dashboard', label: '首页', icon: 'el-icon-s-home' },
+  { path: '/menu', label: '菜单', icon: 'el-icon-menu' },
+  { path: '/order', label: '订单', icon: 'el-icon-menu' },
+  { path: '/stat', label: '统计', icon: 'el-icon-menu' },
+]);
 
-/**
- * 左侧导航组件
- */
-@Component({
-  components: {},
-})
-export default class Navbar extends Vue {
-  get menus(): CMMenuItem[] {
-    return subRoutes.map((item) => ({
-      label: item.meta?.label,
-      path: item.path,
-    }));
-  }
+const currentInstance = getCurrentInstance();
 
-  get activePath() {
-    return this.$route.meta?.activePath || this.$route.path;
-  }
-}
+const activePath = computed(
+  () => currentInstance.$route.meta?.activePath || currentInstance.$route.path,
+);
 </script>
 
 <style lang="scss" scoped>
