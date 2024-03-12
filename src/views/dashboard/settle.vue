@@ -30,57 +30,58 @@
   </el-dialog>
 </template>
 
-<script lang="ts">
-import { showMessage } from '@greatmap/common-modules';
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+<script lang="ts" setup>
+import { showMessage, CMTable, CMButton } from '@greatmap/common-modules';
+import { computed, ref } from 'vue';
 
-import type { MenuType } from '../../api/menu';
-import type { OrderItem } from '../../api/order';
-import { addOrders, orderTotal } from '../../api/order';
 import Total from './total.vue';
+import type { MenuType } from '@/api/menu';
+import type { OrderItem } from '@/api/order';
 
-@Component({
-  components: { Total },
-})
-export default class Settle extends Vue {
-  visible = false;
-  data: OrderItem[] = [];
-  columns = [
-    { prop: 'name', label: '名称' },
-    {
-      prop: 'count',
-      label: '数量',
-      width: '170px',
-    },
-    { prop: 'price', label: '单价(元)' },
-    {
-      prop: 'total',
-      label: '总价(元)',
-      formatter: (val, row) => row.price * row.count,
-    },
-  ];
+import { addOrders, orderTotal } from '@/api/order';
 
-  get total() {
-    return orderTotal(this.data);
-  }
+const emits = defineEmits(['submit', 'close']);
 
-  open(data: (MenuType & { count: number })[]) {
-    this.visible = true;
-    this.data = [...data];
-  }
-  submit() {
-    return addOrders(this.data).then(() => {
-      showMessage('操作成功', 'success');
-      this.$emit('submit');
-      this.close();
-    });
-  }
-  close() {
-    this.$emit('close');
-    this.visible = false;
-  }
-}
+const visible = ref(false);
+const data = ref<OrderItem[]>([]);
+const columns = ref([
+  { prop: 'name', label: '名称' },
+  {
+    prop: 'count',
+    label: '数量',
+    width: '170px',
+  },
+  { prop: 'price', label: '单价(元)' },
+  {
+    prop: 'total',
+    label: '总价(元)',
+    formatter: (val, row) => row.price * row.count,
+  },
+]);
+
+const total = computed(() => {
+  return orderTotal(data.value);
+});
+
+const open = (data1: (MenuType & { count: number })[]) => {
+  visible.value = true;
+  data.value = [...data1];
+};
+const submit = () => {
+  return addOrders(data.value).then(() => {
+    showMessage('操作成功', 'success');
+    emits('submit');
+    close();
+  });
+};
+const close = () => {
+  emits('close');
+  visible.value = false;
+};
+
+defineExpose({
+  open,
+});
 </script>
 
 <style lang="scss" scoped>

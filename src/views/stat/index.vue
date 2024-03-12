@@ -5,110 +5,109 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { toMap } from '@greatmap/common-modules';
 import * as echarts from 'echarts/core';
-import { Component, Vue } from 'vue-property-decorator';
+import { onActivated, onMounted, ref } from 'vue';
 
 import {
   getOrdersTotalByDay,
   getOrdersTotalByDayAndProduction,
-} from '../../api/order';
+} from '@/api/order';
 
-@Component
-export default class Dashboard extends Vue {
-  commonChartOptions = {
-    tooltip: {
-      show: true,
+const commonChartOptions = ref({
+  tooltip: {
+    show: true,
+  },
+  grid: {
+    left: 30,
+    right: 30,
+    bottom: 36,
+  },
+  legend: {
+    show: true,
+    right: 0,
+    width: '80%',
+  },
+});
+
+const statDay = ref<HTMLElement>();
+const chartStatDay = ref();
+const initStatDay = async () => {
+  if (!chartStatDay.value) {
+    chartStatDay.value = echarts.init(statDay.value);
+  }
+
+  const data = await getOrdersTotalByDay();
+
+  chartStatDay.value.setOption({
+    ...commonChartOptions.value,
+    title: {
+      text: '每日营收总额',
     },
-    grid: {
-      left: 30,
-      right: 30,
-      bottom: 36,
+    xAxis: {
+      data: data.map((item) => item.date),
     },
+    yAxis: {},
+    series: [
+      {
+        name: '金额（元）',
+        type: 'bar',
+        barMaxWidth: 40,
+        data: data.map((item) => item.total),
+      },
+    ],
+  });
+};
+
+const statProds = ref<HTMLElement>();
+const chartStatProds = ref();
+const initStatProds = async () => {
+  if (!chartStatProds.value) {
+    chartStatProds.value = echarts.init(statProds.value);
+  }
+
+  const data = await getOrdersTotalByDayAndProduction();
+
+  chartStatProds.value.setOption({
+    ...commonChartOptions.value,
+    title: {
+      text: '每日各产品营收',
+    },
+    xAxis: {
+      data: data[0].data.map((item) => item.date),
+    },
+    yAxis: {},
+    series: data.map((item) => ({
+      name: item.name,
+      type: 'line',
+      data: item.data.map((item) => item.total),
+      smooth: true,
+    })),
+  });
+  chartStatProds.value.setOption({
     legend: {
-      show: true,
-      right: 0,
-      width: '80%',
+      selected: toMap(
+        data.map((item, index) => ({ name: item.name, selected: index < 7 })),
+        'name',
+        'selected',
+      ),
     },
-  };
+  });
+};
 
-  private chartStatDay;
-  async initStatDay() {
-    if (!this.chartStatDay) {
-      this.chartStatDay = echarts.init(this.$refs.statDay as HTMLElement);
-    }
+const update = () => {
+  initStatDay();
+  initStatProds();
+};
 
-    const data = await getOrdersTotalByDay();
+onActivated(() => {
+  update();
+});
 
-    this.chartStatDay.setOption({
-      ...this.commonChartOptions,
-      title: {
-        text: '每日营收总额',
-      },
-      xAxis: {
-        data: data.map((item) => item.date),
-      },
-      yAxis: {},
-      series: [
-        {
-          name: '金额（元）',
-          type: 'bar',
-          barMaxWidth: 40,
-          data: data.map((item) => item.total),
-        },
-      ],
-    });
-  }
-
-  private chartStatProds;
-  async initStatProds() {
-    if (!this.chartStatProds) {
-      this.chartStatProds = echarts.init(this.$refs.statProds as HTMLElement);
-    }
-
-    const data = await getOrdersTotalByDayAndProduction();
-
-    this.chartStatProds.setOption({
-      ...this.commonChartOptions,
-      title: {
-        text: '每日各产品营收',
-      },
-      xAxis: {
-        data: data[0].data.map((item) => item.date),
-      },
-      yAxis: {},
-      series: data.map((item) => ({
-        name: item.name,
-        type: 'line',
-        data: item.data.map((item) => item.total),
-        smooth: true,
-      })),
-    });
-    this.chartStatProds.setOption({
-      legend: {
-        selected: toMap(
-          data.map((item, index) => ({ name: item.name, selected: index < 7 })),
-          'name',
-          'selected',
-        ),
-      },
-    });
-  }
-
-  update() {
-    this.initStatDay();
-    this.initStatProds();
-  }
-
-  activated() {
-    this.update();
-  }
-
-  mounted() {
-    this.update();
-  }
-}
+onMounted(() => {
+  update();
+});
 </script>
 
 <!--<style lang="scss" scoped>-->

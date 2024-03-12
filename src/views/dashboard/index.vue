@@ -17,7 +17,7 @@
       />
       <div class="order-submit cm-flex-auto__fixed cm-flex-space-between">
         <CMButton @click="submit" type="success">下单</CMButton>
-        <Settle @submit="reset()" ref="Settle" />
+        <Settle @submit="reset()" ref="settle" />
 
         <Total :value="total" />
       </div>
@@ -55,117 +55,104 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts" setup>
+import { CMButton, CMLabel, CMTable } from '@greatmap/common-modules';
+import { computed, onActivated, onMounted, ref } from 'vue';
 
-import { getMenuList } from '../../api/menu';
-import type { MenuType } from '../../api/menu';
-import type { OrderItem } from '../../api/order';
-import { orderTotal } from '../../api/order';
-import { DICT } from '../../config/dictionary';
-import { MoveTo } from './move-to';
+import { MoveTo as vMoveTo } from './move-to';
 import Settle from './settle.vue';
 import Total from './total.vue';
+import type { MenuType } from '@/api/menu';
+import type { OrderItem } from '@/api/order';
 
-@Component({
-  components: {
-    Total,
-    Settle,
-  },
-  directives: {
-    MoveTo,
-  },
-})
-export default class Dashboard extends Vue {
-  menus: MenuType[] = [];
+import { getMenuList } from '@/api/menu';
+import { orderTotal } from '@/api/order';
+import { DICT } from '@/config/dictionary';
 
-  data: OrderItem[] = [];
-  columns = [
-    { prop: 'name', label: '名称' },
-    {
-      prop: 'count',
-      label: '数量',
-      width: '170px',
-      type: 'form-control',
-      formControlProps: {
-        type: 'input_number',
+const menus = ref<MenuType[]>([]);
+const data = ref<OrderItem[]>([]);
+const columns = ref([
+  { prop: 'name', label: '名称' },
+  {
+    prop: 'count',
+    label: '数量',
+    width: '170px',
+    type: 'form-control',
+    formControlProps: {
+      type: 'input_number',
+    },
+  },
+  {
+    label: '删除',
+    type: 'handle',
+    width: '80px',
+    handleButtons: [
+      {
+        icon: 'el-icon-delete',
+        type: 'danger',
+        handler: (row) => deleteItem(row),
       },
-    },
-    {
-      label: '删除',
-      type: 'handle',
-      width: '80px',
-      handleButtons: [
-        {
-          icon: 'el-icon-delete',
-          type: 'danger',
-          handler: (row) => {
-            this.delete(row);
-          },
-        },
-      ],
-    },
-  ];
+    ],
+  },
+]);
+const typeMap = DICT.getMapSync('menu_type');
 
-  typeMap = DICT.getMapSync('menu_type');
-
-  get menuGroup(): { type: string; data: MenuType[] }[] {
-    return this.menus.reduce((a, b) => {
-      const find = a.find((item) => item.type === b.type);
-      if (find) {
-        find.data.push(b);
-        return a;
-      } else {
-        return a.concat([{ type: b.type, data: [b] }]);
-      }
-    }, []);
-  }
-
-  get total() {
-    return orderTotal(this.data);
-  }
-
-  delete(row) {
-    const index = this.data.indexOf(row);
-    this.data.splice(index, 1);
-  }
-
-  add(data) {
-    const find = this.data.find((item) => item.id === data.id);
+const menuGroup = computed<{ type: string; data: MenuType[] }[]>(() => {
+  return menus.value.reduce((a, b) => {
+    const find = a.find((item) => item.type === b.type);
     if (find) {
-      find.count++;
+      find.data.push(b);
+      return a;
     } else {
-      this.data.push({
-        ...data,
-        count: 1,
-      });
+      return a.concat([{ type: b.type, data: [b] }]);
     }
-  }
+  }, []);
+});
+const total = computed(() => {
+  return orderTotal(data.value);
+});
 
-  submit() {
-    if (!this.data.length) return;
+const deleteItem = (row) => {
+  const index = data.value.indexOf(row);
+  data.value.splice(index, 1);
+};
 
-    (this.$refs.Settle as Settle).open(this.data);
-  }
-
-  reset() {
-    this.data = [];
-  }
-
-  update() {
-    getMenuList().then((res) => {
-      this.menus = res;
+const add = (data) => {
+  const find = data.value.find((item) => item.id === data.id);
+  if (find) {
+    find.count++;
+  } else {
+    data.value.push({
+      ...data,
+      count: 1,
     });
   }
+};
 
-  activated() {
-    this.update();
-  }
+const settle = ref<Settle>();
+const submit = () => {
+  if (!data.value.length) return;
 
-  mounted() {
-    this.update();
-  }
-}
+  settle.value.open(data.value);
+};
+
+const update = () => {
+  getMenuList().then((res) => {
+    menus.value = res;
+  });
+};
+
+const reset = () => {
+  data.value = [];
+};
+
+onActivated(() => {
+  update();
+});
+
+onMounted(() => {
+  update();
+});
 </script>
 
 <style lang="scss" scoped>

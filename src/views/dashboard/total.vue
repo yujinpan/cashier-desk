@@ -6,13 +6,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class Total extends Vue {
-  @Prop() private value!: number;
-}
+<script lang="ts" setup>
+defineProps({
+  value: Number,
+});
 </script>
 
 <!--<style lang="scss" scoped>-->
