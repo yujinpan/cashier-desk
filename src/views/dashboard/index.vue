@@ -60,7 +60,7 @@
 
 <script lang="ts" setup>
 import { CMButton, CMLabel, CMTable } from '@greatmap/common-modules';
-import { computed, onActivated, onMounted, ref } from 'vue';
+import { computed, onActivated, onMounted, ref, watch } from 'vue';
 
 import { MoveTo as vMoveTo } from './move-to';
 import Settle from './settle.vue';
@@ -101,7 +101,14 @@ const columns = computed(() => [
     ],
   },
 ]);
-const typeMap = DICT.getMapSync('menu_type');
+const typeMap = ref({});
+watch(
+  () => locale.value,
+  () => {
+    typeMap.value = ref(DICT.getMapSync('menu_type'));
+  },
+  { immediate: true },
+);
 
 const menuGroup = computed<{ type: string; data: MenuType[] }[]>(() => {
   return menus.value.reduce((a, b) => {
