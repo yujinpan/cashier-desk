@@ -13,7 +13,7 @@ import statRoute from './modules/stat';
 import type { RouteConfig } from 'vue-router/types/router';
 
 // 子模块的路由注册
-export const subRoutes: RouteConfig[] = [
+const subRoutes: RouteConfig[] = [
   dashboardRoute,
   menuRoute,
   orderRoute,
