@@ -1,7 +1,21 @@
-import CM from '@greatmap/common-modules';
-import ElementUI from 'element-ui';
+import {
+  Button,
+  Form,
+  FormItem,
+  Input,
+  InputNumber,
+  RadioButton,
+  Table,
+  TableColumn,
+} from 'element-ui';
 import Vue from 'vue';
 import './echarts';
 
-Vue.use(ElementUI);
-Vue.use(CM);
+Vue.use(Button);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Input);
+Vue.use(InputNumber);
+Vue.use(RadioButton);
