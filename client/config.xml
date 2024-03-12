@@ -5,7 +5,7 @@
     <author email="1192878390@qq.com" href="https://yujinpan.github.io">
         yujinpan
     </author>
-    <content src="index.html" />
+    <content src="index-client.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 
