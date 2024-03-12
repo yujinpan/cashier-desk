@@ -7,20 +7,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run www && node scripts/version.js && cordova build ios",
-    "www": "rm -rf www && cp -r ../dist/ ./www/"
+    "www": "rm -rf www && cp -r ../dist-client/ ./www/"
   },
   "keywords": [
     "ecosystem:cordova"
   ],
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "cordova-ios": "^7.0.1"
-  },
   "cordova": {
     "platforms": [
       "ios"
     ],
     "plugins": {}
+  },
+  "devDependencies": {
+    "cordova-ios": "^7.0.1"
+  },
+  "dependencies": {
+    "@greatmap/common-modules": "^1.8.54"
   }
 }
