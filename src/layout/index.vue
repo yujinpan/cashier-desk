@@ -16,17 +16,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-
+<script lang="ts" setup>
 import Navbar from './navbar.vue';
-
-@Component({
-  components: {
-    Navbar,
-  },
-})
-export default class Layout extends Vue {}
 </script>
 
 <style lang="scss" scoped>
