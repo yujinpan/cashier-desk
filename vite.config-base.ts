@@ -27,6 +27,7 @@ export const getConfig = ({ client }: { client?: boolean } = {}) => {
     }),
     vitePluginGA({
       id: 'G-S66MPLRFJZ',
+      lazy: client,
     }),
   ];
 
