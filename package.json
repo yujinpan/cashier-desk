@@ -8,10 +8,11 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "vite build && node client/scripts/version.js",
     "publish:beta": "release-ops tag beta && git push",
     "publish:patch": "release-ops tag patch && git push",
-    "client:build": "vite build -c vite.config-client.ts && cd client && npm run build",
+    "client:build-www": "vite build -c vite.config-client.ts",
+    "client:build": "npm run client:build-www && cd client && npm run build",
     "preview": "vite preview --port 4173",
     "test": "vitest --environment jsdom",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
