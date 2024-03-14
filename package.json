@@ -1,6 +1,6 @@
 {
   "name": "cahier-desk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "yujinpan",
   "workspaces": [
     "client"
