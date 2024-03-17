@@ -36,7 +36,7 @@ import { useLocale } from '@/utils/locale';
 const { locale } = useLocale();
 
 const columns = computed(() => [
-  { label: locale.value.menu.number, prop: 'order', width: '80px' },
+  { label: locale.value.menu.number, prop: 'order', minWidth: '80px' },
   {
     prop: 'type',
     label: locale.value.menu.type,
@@ -44,11 +44,13 @@ const columns = computed(() => [
     type: 'tag',
     tagType: (val) =>
       val === DICT.getSync('menu_type')[0].label ? 'primary' : 'success',
+    minWidth: '100px',
   },
-  { prop: 'name', label: locale.value.menu.name },
+  { prop: 'name', label: locale.value.menu.name, minWidth: '100px' },
   {
     prop: 'price',
     label: `${locale.value.order.unitPrice}(${locale.value.currency.name})`,
+    minWidth: '160px',
   },
   {
     type: 'handle',
@@ -162,5 +164,8 @@ const getListMethod = () => {
 @import '@/styles/common-variables.scss';
 
 .menu {
+  :deep(.cm-filter .el-radio-group) {
+    white-space: nowrap;
+  }
 }
 </style>

@@ -23,7 +23,7 @@
         <Total :value="total" />
       </div>
     </div>
-    <div class="menu cm-flex-auto__content cm-scroll-y">
+    <div class="menu cm-flex-auto__content cm-scroll">
       <div v-for="item in menuGroup" :key="item.type">
         <CMLabel
           class="cm-margin-bottom-base"
@@ -194,6 +194,7 @@ onMounted(() => {
       margin-left: -$spacing-base;
       &-item {
         width: 33.33%;
+        min-width: 200px;
         padding: 0 0 $spacing-base $spacing-base;
         .cm-button {
           height: 120px;

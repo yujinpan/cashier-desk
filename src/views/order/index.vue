@@ -42,13 +42,13 @@ const { locale } = useLocale();
 
 const data = ref([]);
 const columns = computed(() => [
-  { prop: 'time', label: locale.value.order.time, width: '300px' },
+  { prop: 'time', label: locale.value.order.time, minWidth: '300px' },
   {
     prop: 'total',
     label: `${locale.value.order.totalPrice}(${locale.value.currency.name})`,
-    width: '160px',
+    minWidth: '160px',
   },
-  { prop: 'detail', label: locale.value.order.details },
+  { prop: 'detail', label: locale.value.order.details, minWidth: '150px' },
 ]);
 const filterParams = ref({
   date: 0,
@@ -112,6 +112,10 @@ const getListMethod = () => {
 };
 </script>
 
-<!--<style lang="scss" scoped>-->
-<!--@import '@/styles/common-variables.scss';-->
-<!--</style>-->
+<style lang="scss" scoped>
+@import '@/styles/common-variables.scss';
+
+:deep(.cm-filter .el-radio-group) {
+  white-space: nowrap;
+}
+</style>
