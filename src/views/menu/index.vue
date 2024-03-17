@@ -61,20 +61,20 @@ const columns = computed(() => [
         label: locale.value.handle.edit,
         text: false,
         type: 'primary',
-        handler: (row) => createMenu(row),
+        handler: (row) => {
+          createMenu(row);
+        },
       },
       {
         label: locale.value.handle.delete,
         text: false,
         type: 'warning',
         handler: (row) => {
-          return MessageBox.confirm(locale.value.handle.confirmDeleteMsg).then(
-            () => {
-              return deleteMenu(row.id).then(() => {
-                handleSuccess();
-              });
-            },
-          );
+          MessageBox.confirm(locale.value.handle.confirmDeleteMsg).then(() => {
+            return deleteMenu(row.id).then(() => {
+              handleSuccess();
+            });
+          });
         },
       },
     ],

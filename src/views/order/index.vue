@@ -42,11 +42,11 @@ const { locale } = useLocale();
 
 const data = ref([]);
 const columns = computed(() => [
-  { prop: 'time', label: locale.value.order.time, minWidth: '300px' },
+  { prop: 'time', label: locale.value.order.time, minWidth: '150px' },
   {
     prop: 'total',
     label: `${locale.value.order.totalPrice}(${locale.value.currency.name})`,
-    minWidth: '160px',
+    minWidth: '80px',
   },
   { prop: 'detail', label: locale.value.order.details, minWidth: '150px' },
 ]);

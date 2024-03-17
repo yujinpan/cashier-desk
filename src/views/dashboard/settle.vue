@@ -2,10 +2,11 @@
   <el-dialog
     :visible="visible"
     :title="locale.order.confirmTitle"
-    width="70%"
+    width="85%"
     append-to-body
     :close-on-click-modal="false"
     :show-close="false"
+    top="5vh"
   >
     <div class="settle">
       <CMTable
@@ -15,7 +16,6 @@
         :border="false"
         :order="false"
         :show-overflow-tooltip="false"
-        max-height="320px"
         size="large"
       />
       <Total class="cm-margin-top-large" :value="total" />
