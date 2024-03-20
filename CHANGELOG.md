@@ -1,3 +1,13 @@
+## [1.0.5](https://github.com/yujinpan/cashier-desk/compare/v1.0.4...v1.0.5) (2024-03-20)
+
+### Bug Fixes
+
+- menu/list styles ([6721ff1](https://github.com/yujinpan/cashier-desk/commit/6721ff16927746927bd8a7f0418a5c9cf6c00b2e))
+
+### Features
+
+- support phone screen ([5065963](https://github.com/yujinpan/cashier-desk/commit/506596340694ed784306e37c73de6480c4784e24))
+
 ## [1.0.4](https://github.com/yujinpan/cashier-desk/compare/v1.0.3...v1.0.4) (2024-03-14)
 
 ### Bug Fixes
