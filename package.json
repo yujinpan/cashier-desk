@@ -8,10 +8,10 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "vite --host",
-    "build": "vite build && node client/scripts/version.js",
+    "build": "vite build",
     "publish:beta": "release-ops tag beta && git push",
     "publish:patch": "release-ops tag patch && git push",
-    "client:build-www": "vite build -c vite.config-client.ts",
+    "client:build-www": "vite build -c vite.config-client.ts && node client/scripts/version.js",
     "client:build": "npm run client:build-www && cd client && npm run build",
     "preview": "vite preview --port 4173",
     "test": "vitest --environment jsdom",
