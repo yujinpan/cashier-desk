@@ -39,7 +39,7 @@ export const getConfig = ({ client }: { client?: boolean } = {}) => {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,ttf,woff}'],
         },
         includeAssets: ['logo.svg'],
-        devOptions: { enabled: true },
+        // devOptions: { enabled: true },
         manifest: {
           id: 'CashierDesk',
           name: 'CashierDesk',
