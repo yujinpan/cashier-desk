@@ -202,15 +202,15 @@ onMounted(() => {
         padding: 0 0 $spacing-base $spacing-base;
         .cm-button {
           height: 120px;
-          padding: $spacing-medium $spacing-base;
+          padding: 0 $spacing-base;
           width: 100%;
-          line-height: 1.5em;
+          line-height: 1.3em;
         }
 
         @media screen and (max-width: 1023px) {
           min-width: 140px;
           .cm-button {
-            height: 60px;
+            height: 80px;
           }
         }
       }
@@ -218,6 +218,7 @@ onMounted(() => {
     &__item-name {
       font-size: $--font-size-extra-large;
       white-space: normal;
+      margin-bottom: $spacing-base;
 
       @media screen and (max-width: 1023px) {
         font-size: $--font-size-extra-small;

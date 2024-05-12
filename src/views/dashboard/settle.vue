@@ -109,7 +109,8 @@ defineExpose({
       padding: $spacing-medium;
 
       @media screen and (max-width: 1023px) {
-        height: 60px;
+        width: 30%;
+        height: 50px;
         padding: $spacing-base;
       }
     }

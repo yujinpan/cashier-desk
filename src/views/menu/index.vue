@@ -44,13 +44,13 @@ const columns = computed(() => [
     type: 'tag',
     tagType: (val) =>
       val === DICT.getSync('menu_type')[0].label ? 'primary' : 'success',
-    minWidth: '100px',
+    minWidth: '120px',
   },
   { prop: 'name', label: locale.value.menu.name, minWidth: '100px' },
   {
     prop: 'price',
     label: `${locale.value.order.unitPrice}(${locale.value.currency.name})`,
-    minWidth: '160px',
+    minWidth: '120px',
   },
   {
     type: 'handle',

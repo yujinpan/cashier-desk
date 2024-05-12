@@ -20,10 +20,10 @@
     ],
     "plugins": {}
   },
-  "devDependencies": {
-    "cordova-ios": "^7.0.1"
-  },
   "dependencies": {
     "@greatmap/common-modules": "^1.8.54"
+  },
+  "devDependencies": {
+    "cordova-ios": "^7.1.0"
   }
 }
