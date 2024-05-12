@@ -31,7 +31,7 @@ const commonChartOptions = ref({
   legend: {
     show: true,
     right: 0,
-    width: '70%',
+    width: '60%',
     type: 'scroll',
   },
 });
