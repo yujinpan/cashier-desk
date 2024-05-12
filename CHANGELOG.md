@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/yujinpan/cashier-desk/compare/v1.0.5...v1.0.6) (2024-05-12)
+
+### Features
+
+- add mini screen styles ([4e71455](https://github.com/yujinpan/cashier-desk/commit/4e714557ef18964939b4150a453b44394a957f8f))
+- support screen top bar ([607e0d1](https://github.com/yujinpan/cashier-desk/commit/607e0d13aa9e1f4bd01c7682198bb22445708991))
+
 ## [1.0.5](https://github.com/yujinpan/cashier-desk/compare/v1.0.4...v1.0.5) (2024-03-20)
 
 ### Bug Fixes
