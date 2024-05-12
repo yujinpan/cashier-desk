@@ -28,7 +28,6 @@
         <CMLabel
           class="cm-margin-bottom-base"
           :label="typeMap[item.type]"
-          label-size="26px"
           title
         />
         <ul class="menu__list cm-flex-wrap cm-list-unstyled">
@@ -37,19 +36,15 @@
               v-move-to="[300, 330]"
               @click="add(item)"
               column
-              style="line-height: 35px"
               :type="item.type === 'meat' ? 'primary' : 'success'"
             >
-              <span
-                class="cm-text-ellipsis-2"
-                style="font-size: 30px; white-space: normal"
-              >
+              <span class="menu__item-name cm-text-ellipsis-2">
                 {{ item.name }}
               </span>
-              <span style="font-size: 16px"
+              <span class="menu__item-symbol" style="font-size: 16px"
                 >{{ locale.currency.symbol }}&nbsp;</span
               >
-              <span>{{ item.price }}</span>
+              <span class="menu__item-price">{{ item.price }}</span>
             </CMButton>
           </li>
         </ul>
@@ -186,10 +181,19 @@ onMounted(() => {
       .cm-button {
         width: 40%;
         height: 80px;
+        @media screen and (max-width: 1023px) {
+          height: 50px;
+        }
       }
     }
   }
   .menu {
+    :deep(.cm-label__label-text) {
+      font-size: $--font-size-large;
+      @media screen and (max-width: 1023px) {
+        font-size: $--font-size-extra-small;
+      }
+    }
     &__list {
       margin-left: -$spacing-base;
       &-item {
@@ -200,8 +204,28 @@ onMounted(() => {
           height: 120px;
           padding: $spacing-medium $spacing-base;
           width: 100%;
+          line-height: 1.5em;
+        }
+
+        @media screen and (max-width: 1023px) {
+          min-width: 140px;
+          .cm-button {
+            height: 60px;
+          }
         }
       }
+    }
+    &__item-name {
+      font-size: $--font-size-extra-large;
+      white-space: normal;
+
+      @media screen and (max-width: 1023px) {
+        font-size: $--font-size-extra-small;
+      }
+    }
+    &__item-symbol,
+    &__item-price {
+      font-size: 1.35em;
     }
   }
 }

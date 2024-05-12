@@ -65,5 +65,12 @@ const activePath = computed(
     height: 100px !important;
     border-radius: 0;
   }
+
+  @media screen and (max-width: 1023px) {
+    width: 100px;
+    .cm-button {
+      height: 80px !important;
+    }
+  }
 }
 </style>

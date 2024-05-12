@@ -4,7 +4,6 @@
       class="cm-margin-bottom-large"
       :label="locale.settings.settings"
       label-weight="bold"
-      font-size="16px"
     />
     <CMForm :model="model" :fields="fields" label-width="auto" />
   </div>

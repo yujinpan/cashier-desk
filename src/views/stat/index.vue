@@ -23,6 +23,7 @@ const commonChartOptions = ref({
     show: true,
   },
   grid: {
+    top: 40,
     left: 30,
     right: 30,
     bottom: 36,
@@ -30,7 +31,8 @@ const commonChartOptions = ref({
   legend: {
     show: true,
     right: 0,
-    width: '80%',
+    width: '70%',
+    type: 'scroll',
   },
 });
 

@@ -8,15 +8,76 @@
 @import "~@greatmap/common-modules/dist/styles/index.scss";
 
 .el-button,
+.el-link,
+.el-tag,
 .el-table,
 .el-dialog__body,
 .el-message,
-.el-message__content {
+.el-message__content,
+.el-message-box__title {
   font-size: $--font-size-large !important;
+  @media screen and (max-width: 1023px) {
+    font-size: $--font-size-extra-small !important;
+  }
 }
 
-.el-button {
+.el-form-item__label,
+.el-input__inner {
+  @media screen and (max-width: 1023px) {
+    font-size: $--font-size-extra-small !important;
+    height: 40px !important;
+    line-height: 40px !important;
+  }
+}
+
+.el-input-number {
+  @media screen and (max-width: 1023px) {
+    &__increase,
+    &__decrease {
+      width: 40px;
+      top: 1px;
+      bottom: 1px;
+    }
+    height: 40px;
+    line-height: 40px;
+    .el-input__inner {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    .el-input {
+      display: inline-flex;
+    }
+  }
+}
+
+.el-radio-button__inner,
+.cm-label {
+  @media screen and (max-width: 1023px) {
+    font-size: $--font-size-extra-small !important;
+  }
+}
+
+.cm-form-item {
+  @media screen and (max-width: 1023px) {
+    margin-bottom: 16px;
+  }
+}
+
+.el-dialog__body {
+  @media screen and (max-width: 1023px) {
+    padding: 10px 20px;
+  }
+}
+
+.el-button,
+.el-link {
   letter-spacing: 1px;
+
+  @media screen and (max-width: 1023px) {
+    [class*=" el-icon-"] {
+      font-size: 24px !important;
+    }
+  }
 }
 
 .cm-table.el-table thead th {
@@ -51,4 +112,7 @@ body {
 
 body {
   font-size: $--font-size-base;
+  @media screen and (max-width: 1023px) {
+    font-size: $--font-size-extra-small !important;
+  }
 }

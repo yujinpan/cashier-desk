@@ -118,6 +118,8 @@ const createMenu = (row: Partial<MenuType> = {}) => {
   );
 
   return promptForm({
+    title: '菜单',
+    labelWidth: 'auto',
     model: {
       ...row,
     },

@@ -107,6 +107,11 @@ defineExpose({
       width: 40%;
       height: 80px;
       padding: $spacing-medium;
+
+      @media screen and (max-width: 1023px) {
+        height: 60px;
+        padding: $spacing-base;
+      }
     }
   }
 }
